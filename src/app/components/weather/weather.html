@@ -1,1 +1,44 @@
-<p>weather works!</p>
+<div class="weather-container">
+  <!-- Selector de Vista -->
+  <div class="view-selector">
+    <button 
+      [class.active]="currentView === 'national'" 
+      (click)="onViewChange('national')">
+      Nacional
+    </button>
+    <button 
+      [class.active]="currentView === 'asturias'" 
+      (click)="onViewChange('asturias')">
+      Asturias
+    </button>
+  </div>
+
+  <!-- Estado de Carga / Sin Datos -->
+  <div *ngIf="!weatherData" class="loading-state">
+    <p>Cargando información del clima...</p>
+  </div>
+
+  <!-- Tarjeta del Clima (Solo se muestra si hay datos) -->
+  <div *ngIf="weatherData" class="weather-card">
+    <div class="weather-header">
+      <h2>Predicción Metereológica</h2>
+      <span class="badge">{{ currentView === 'national' ? 'Todo el país' : 'Región de Asturias' }}</span>
+    </div>
+
+    <div class="weather-body">
+      <!-- Icono Dinámico -->
+      <div class="weather-icon-container">
+        <img [src]="skyImage" [alt]="skyText" class="weather-icon" />
+      </div>
+
+      <!-- Información Principal -->
+      <div class="weather-info">
+        <p class="sky-status">{{ skyText }}</p>
+        
+        <!-- Renderizado Condicional Dinámico (Opcional por si tu API trae temperaturas) -->
+        <div *ngIf="weatherData['temperatura']" class="temperature">
+          {{ weatherData['temperatura'] }}°C
+        </div>
+      </div>
+    </div>
+</div>

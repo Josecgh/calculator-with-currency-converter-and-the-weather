@@ -1,4 +1,51 @@
-.container {
+/* ==========================================
+   ESTILOS GENERALES
+   ========================================== */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f3f4f6; /* Un fondo gris muy claro que hace resaltar las tarjetas */
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  align-items: center;
+}
+
+/* ==========================================
+   DISEÑO PARA MÓVIL (Por defecto: En Columna)
+   ========================================== */
+.app-container {
   display: flex;
-  gap: 40px;
+  flex-direction: column; /* Fuerza la disposición en columna */
+  gap: 2rem;              /* Espacio de separación entre cada tarjeta */
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 450px;       /* Evita que se deformen en pantallas de móvil grandes */
+  margin: 0 auto;         /* Centra todo el bloque en la pantalla */
+  box-sizing: border-box;
+}
+
+/* Asegura que los componentes internos respeten el ancho del contenedor */
+.app-container > * {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   DISEÑO PARA ESCRITORIO (Pantallas Grandes)
+   Se activa automáticamente cuando hay espacio suficiente
+   ========================================== */
+@media (min-width: 1024px) {
+  .app-container {
+    flex-direction: row;     /* Cambia a filas (uno al lado del otro) */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: flex-start; /* Los alinea por la parte superior */
+    max-width: 1200px;       /* Ancho máximo permitido en PC */
+    padding: 4rem 2rem;
+  }
+
+  /* Ajuste de tamaño para PC para que se vean proporcionados */
+  .app-container > * {
+    flex: 1;
+    max-width: 380px;        /* Tamaño ideal para cada tarjeta en horizontal */
+  }
 }
