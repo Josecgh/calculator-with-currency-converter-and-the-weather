@@ -1,1 +1,53 @@
-<p>converter works!</p>
+<div class="converter-container">
+  <h2 class="converter-title">Conversor de Divisas</h2>
+
+  @if (isLoading()) {
+    <!-- Estado de carga estilizado -->
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <p>Cargando tasas de cambio...</p>
+    </div>
+  } @else if (hasError()) {
+    <!-- Estado de error si falla la API -->
+    <div class="error-box">
+      <p>⚠️ No se pudieron cargar las tasas de cambio. Inténtalo más tarde.</p>
+    </div>
+  } @else {
+    <!-- Cuerpo del conversor cuando ya cargó con éxito -->
+    <div class="converter-body">
+      <!-- Grupo de Entrada: Cantidad y Selector -->
+      <div class="input-group">
+        <input 
+          type="number" 
+          [(ngModel)]="amount" 
+          (ngModelChange)="onInputChanged()" 
+          class="converter-input" 
+          placeholder="Cantidad"
+        />
+        <select [(ngModel)]="fromCurrency" (ngModelChange)="onInputChanged()" class="converter-select">
+          <option value="EUR">EUR (€)</option>
+          <option value="USD">USD ($)</option>
+          <option value="JPY">JPY (¥)</option>
+        </select>
+      </div>
+
+      <!-- Bloque de Resultados -->
+      <div class="results-container">
+        <div class="result-row" [class.active-currency]="fromCurrency === 'EUR'">
+          <span class="currency-label">Euros</span>
+          <span class="currency-value">{{ convertedEUR | number:'1.2-2' }} <span class="symbol">€</span></span>
+        </div>
+        
+        <div class="result-row" [class.active-currency]="fromCurrency === 'USD'">
+          <span class="currency-label">Dólares</span>
+          <span class="currency-value">{{ convertedUSD | number:'1.2-2' }} <span class="symbol">$</span></span>
+        </div>
+        
+        <div class="result-row" [class.active-currency]="fromCurrency === 'JPY'">
+          <span class="currency-label">Yenes</span>
+          <span class="currency-value">{{ convertedJPY | number:'1.0-0' }} <span class="symbol">¥</span></span>
+        </div>
+      </div>
+    </div>
+  }
+</div>
