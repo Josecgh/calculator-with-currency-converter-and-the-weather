@@ -1,0 +1,19 @@
+.calculator-box {
+  background-color: #868181; /* Gris oscuro elegante para el cuerpo */
+  width: 320px;               /* Ancho ideal y compacto */
+  padding: 20px;
+  border-radius: 18px;
+  box-sizing: border-box; 
+  
+  /* Sombra exterior para darle volumen y separarlo del fondo */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25), 
+              0 4px 10px rgba(0, 0, 0, 0.15);
+              
+  /* Pequeño borde superior para simular reflejo de luz */
+  border: 1px solid #3a3a3a; 
+  
+  /* Asegura que la pantalla y los botones se apilen correctamente */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Espaciado interno entre la pantalla y la botonera */
+}

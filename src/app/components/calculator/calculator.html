@@ -1,0 +1,8 @@
+<!-- app.component.html -->
+<div class="calculator-box">
+  <!-- 1. Le pasamos el estado actual a la pantalla -->
+  <app-screen [displayValue]="currentExpression"></app-screen>
+  
+  <!-- 2. Escuchamos el evento del botón para actualizar el estado -->
+  <app-buttons (buttonsPressed)="handleKeyPress($event)"></app-buttons>
+</div>

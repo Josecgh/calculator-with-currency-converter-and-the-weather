@@ -1,0 +1,10 @@
+<div class="calculator-grid">
+  @for (btn of buttons; track btn) {
+    <button
+      (click)="onButtonClick(btn)"
+      [class]="getButtonClass(btn)"
+    >
+      {{ btn }}
+    </button>
+  }
+</div>

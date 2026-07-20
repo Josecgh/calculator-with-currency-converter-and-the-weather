@@ -1,0 +1,33 @@
+.calculator-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+  gap: 10px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+button {
+  padding: 15px;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Ejemplo de estilo especial para botones de acción o el igual */
+button.operator {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+button.equals {
+  background-color: #0275d8;
+  color: white;
+  grid-column: span 1; /* Puedes ajustar tamaños si lo requieres */
+}
