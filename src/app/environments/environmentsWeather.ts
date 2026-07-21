@@ -1,4 +1,5 @@
 export const environmentsWeather = {
   production: false,
-  weatherApiUrl: 'https://api.el-tiempo.net/json/v3/provincias/33'
+  weatherApiUrlAst: 'https://api.el-tiempo.net/json/v3/provincias/33',
+  weatherApiUrlNac: 'https://api.el-tiempo.net/json/v3/general'
 };

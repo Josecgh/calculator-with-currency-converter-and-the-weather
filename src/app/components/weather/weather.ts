@@ -1,75 +1,75 @@
-import { Component, OnInit } from '@angular/core';
-import { WeatherService } from '../../services/weather.services';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// Definimos una interfaz básica para evitar el uso de 'any'
-interface WeatherResponse {
-  stateSky?: { description: string };
-  origen?: { produccion: string };
-  [key: string]: any; // Permite propiedades dinámicas adicionales si las hay
-}
+import { City, WeatherService } from '../../services/weather.services';
 
 @Component({
   selector: 'app-weather',
-  standalone: true, // Asegúrate de tenerlo si es un componente standalone
   imports: [CommonModule],
   templateUrl: './weather.html',
-  styleUrl: './weather.css',
+  styleUrl: './weather.css'
 })
 export class Weather implements OnInit {
-  currentView: 'national' | 'asturias' = 'national';
-  weatherData: WeatherResponse | null = null;
-  skyText: string = '';
-  skyImage: string = '';
+  private weatherService = inject(WeatherService);
 
-  // URLs de iconos centralizadas para facilitar su mantenimiento
-  private readonly DEFAULT_ICON = 'https://cdn-icons-png.flaticon.com/512/414/414825.png';
-  private readonly WEATHER_ICONS = {
-    sun: 'https://cdn-icons-png.flaticon.com/512/869/869869.png',
-    cloud: 'https://cdn-icons-png.flaticon.com/512/414/414825.png',
-    rain: 'https://cdn-icons-png.flaticon.com/512/3351/3351118.png',
-    storm: 'https://cdn-icons-png.flaticon.com/512/1779/1779944.png',
-    snow: 'https://cdn-icons-png.flaticon.com/512/642/642000.png'
-  };
-
-  constructor(private weatherService: WeatherService) { }
+  vistaActual: 'NACIONAL' | 'ASTURIAS' = 'NACIONAL';
+  ciudades: City[] = [];
+  ciudadesFiltradas: City[] = []; // Array que alimentará la vista filtrada
+  loading = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.loadWeather();
+    this.cargarDatosNacional();
   }
 
-  onViewChange(view: 'national' | 'asturias'): void {
-    this.currentView = view;
-    this.loadWeather();
-  }
+  cargarDatosNacional(): void {
+    this.vistaActual = 'NACIONAL';
+    this.loading.set(true);
 
-  loadWeather(): void {
-    this.weatherService.getWeatherData(this.currentView).subscribe({
-      next: (data: WeatherResponse) => {
-        this.weatherData = data;
-        
-        // Extracción segura del estado del cielo
-        this.skyText = data.stateSky?.description || data.origen?.produccion || 'Despejado';
-        this.skyImage = this.getSkyImage(this.skyText);
+    this.weatherService.getCiudadesNacional().subscribe({
+      next: (data) => {
+        this.ciudades = data;
+        this.ciudadesFiltradas = data; // Inicialmente mostramos todas
+        this.loading.set(false);
       },
-      error: (err) => console.error('Error al cargar datos de la API:', err)
+      error: (err) => {
+        console.error('Error al cargar datos nacionales:', err);
+        this.loading.set(false);
+      }
     });
   }
 
-  getSkyImage(description: string): string {
-    if (!description) return this.DEFAULT_ICON;
-    
-    const desc = description.toLowerCase();
-    
-    // PRIORIDAD ALTA: Fenómenos activos (evita que "nubes con lluvia" se quede solo en nube)
-    if (desc.includes('tormenta')) return this.WEATHER_ICONS.storm;
-    if (desc.includes('nieve')) return this.WEATHER_ICONS.snow;
-    if (desc.includes('lluvia') || desc.includes('llovizna') || desc.includes('chubasco')) return this.WEATHER_ICONS.rain;
-    
-    // PRIORIDAD BAJA: Estados generales del cielo
-    if (desc.includes('nube') || desc.includes('nuboso') || desc.includes('cubierto')) return this.WEATHER_ICONS.cloud;
-    if (desc.includes('despejado') || desc.includes('sol')) return this.WEATHER_ICONS.sun;
-    
-    return this.DEFAULT_ICON;
+  cargarDatosAsturias(): void {
+    this.vistaActual = 'ASTURIAS';
+    this.loading.set(true);
+
+    this.weatherService.getCiudadesAsturias().subscribe({
+      next: (data) => {
+        this.ciudades = data;
+        this.ciudadesFiltradas = data; // Inicialmente mostramos todas
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error al cargar datos de Asturias:', err);
+        this.loading.set(false);
+      }
+    });
+  }
+
+  /**
+   * Filtra las tarjetas según la opción seleccionada en el <select>
+   */
+  onCiudadSelect(event: Event): void {
+    const selectedName = (event.target as HTMLSelectElement).value;
+
+    if (!selectedName) {
+      this.ciudadesFiltradas = this.ciudades; // Muestra todas si se elige la opción por defecto
+    } else {
+      this.ciudadesFiltradas = this.ciudades.filter(
+        c => c.name.toLowerCase() === selectedName.toLowerCase()
+      );
+    }
+  }
+
+  getImageUrl(stateSkyId: string): string {
+    return this.weatherService.getWeatherIconUrl(stateSkyId);
   }
 }

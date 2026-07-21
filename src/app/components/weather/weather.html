@@ -1,44 +1,46 @@
 <div class="weather-container">
-  <!-- Selector de Vista -->
-  <div class="view-selector">
-    <button 
-      [class.active]="currentView === 'national'" 
-      (click)="onViewChange('national')">
+  <h2>Predicción del Tiempo</h2>
+
+  <!-- Botones para alternar vista -->
+  <div class="actions">
+    <button (click)="cargarDatosNacional()" [class.active]="vistaActual === 'NACIONAL'">
       Nacional
     </button>
-    <button 
-      [class.active]="currentView === 'asturias'" 
-      (click)="onViewChange('asturias')">
+    <button (click)="cargarDatosAsturias()" [class.active]="vistaActual === 'ASTURIAS'">
       Asturias
     </button>
   </div>
 
-  <!-- Estado de Carga / Sin Datos -->
-  <div *ngIf="!weatherData" class="loading-state">
-    <p>Cargando información del clima...</p>
+  <!-- Selector para filtrar ciudades -->
+  <div class="filter-container">
+    <label for="citySelect">Selecciona una ciudad:</label>
+    <select id="citySelect" (change)="onCiudadSelect($event)">
+      <option value="">-- Ver todas las ciudades --</option>
+      <option *ngFor="let ciudad of ciudades" [value]="ciudad.name">
+        {{ ciudad.name }} ({{ ciudad.nameProvince }})
+      </option>
+    </select>
   </div>
 
-  <!-- Tarjeta del Clima (Solo se muestra si hay datos) -->
-  <div *ngIf="weatherData" class="weather-card">
-    <div class="weather-header">
-      <h2>Predicción Metereológica</h2>
-      <span class="badge">{{ currentView === 'national' ? 'Todo el país' : 'Región de Asturias' }}</span>
-    </div>
+  <!-- Grid/Lista de Tarjetas -->
+  <div class="city-cards">
+    <div class="card" *ngFor="let ciudad of ciudadesFiltradas">
+      <h3>{{ ciudad.name }}</h3>
+      <p class="province">{{ ciudad.nameProvince }}</p>
 
-    <div class="weather-body">
-      <!-- Icono Dinámico -->
-      <div class="weather-icon-container">
-        <img [src]="skyImage" [alt]="skyText" class="weather-icon" />
-      </div>
+      <!-- Imagen según el ID del estado del cielo -->
+      <img 
+        [src]="getImageUrl(ciudad.stateSky.id)" 
+        [alt]="ciudad.stateSky.description"
+        class="weather-icon"
+      />
 
-      <!-- Información Principal -->
-      <div class="weather-info">
-        <p class="sky-status">{{ skyText }}</p>
-        
-        <!-- Renderizado Condicional Dinámico (Opcional por si tu API trae temperaturas) -->
-        <div *ngIf="weatherData['temperatura']" class="temperature">
-          {{ weatherData['temperatura'] }}°C
-        </div>
+      <p class="sky-desc">{{ ciudad.stateSky.description }}</p>
+
+      <div class="temperatures">
+        <span class="max">Máx: {{ ciudad.temperatures.max }}°C</span>
+        <span class="min">Mín: {{ ciudad.temperatures.min }}°C</span>
       </div>
     </div>
+  </div>
 </div>
