@@ -47,3 +47,7 @@ Enlace al repositorio de GitHub
 Enlace a la aplicación desplegada en GitHub Pages
 
 ![Separador Animado](https://capsule-render.vercel.app/api?type=waving&color=auto&height=100&section=header)
+
+## Test unitarios (e2e):
+Para ver los tests unitarios observar los archivos la carpeta e2e, al final todos los test unitarios están aprobados.
+<img width="428" height="129" alt="image" src="https://github.com/user-attachments/assets/c8497717-6e44-4f00-a889-e0b63b122fa9" />
