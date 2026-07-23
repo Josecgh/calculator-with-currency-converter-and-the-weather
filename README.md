@@ -51,3 +51,12 @@ Enlace a la aplicación desplegada en GitHub Pages
 ## Test unitarios (e2e):
 Para ver los tests unitarios observar los archivos la carpeta e2e, al final todos los test unitarios están aprobados.
 <img width="428" height="129" alt="image" src="https://github.com/user-attachments/assets/c8497717-6e44-4f00-a889-e0b63b122fa9" />
+
+### Calculator:
+<img width="583" height="350" alt="image" src="https://github.com/user-attachments/assets/fd9ed8c1-f473-4202-ac63-29b7ac9276bd" />
+
+### Converter:
+<img width="587" height="241" alt="image" src="https://github.com/user-attachments/assets/172d268f-368f-4daa-a72b-201f8984de16" />
+
+### Weather:
+<img width="584" height="467" alt="image" src="https://github.com/user-attachments/assets/f9cdb7fe-035c-4cf0-b5ca-1ef69db26686" />
