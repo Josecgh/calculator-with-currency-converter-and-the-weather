@@ -45,3 +45,5 @@ Nota: Todos los elementos deberían estar presentes en una sola vista.
 ## Entregables:
 Enlace al repositorio de GitHub
 Enlace a la aplicación desplegada en GitHub Pages
+
+![Separador Animado](https://capsule-render.vercel.app/api?type=waving&color=auto&height=100&section=header)
